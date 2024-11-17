@@ -3,6 +3,7 @@ const rl = @cImport({
 });
 
 const std = @import("std");
+const math = std.math;
 const n = @import("noise.zig");
 
 const scrWidth = 800;
@@ -136,9 +137,10 @@ pub fn main() !void {
     rl.SetTargetFPS(60);
     canvas = rl.LoadRenderTexture(scrWidth, scrHeight);
     var cnt: f32 = 0;
+    mkNoise(rand.float(f32));
     while (!rl.WindowShouldClose()) {
         cnt += 1;
-        if (cnt > 60) {
+        if (cnt > 6) {
             mkNoise(rand.float(f32));
             cnt = 0;
         }
