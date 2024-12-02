@@ -119,6 +119,7 @@ fn makeNoise(frequency: f64, lacunarity: f64, gain: f64, octaves: i32) void {
 }
 
 pub fn updatePixels() void {
+    // comvert to c void * from zig ptr
     const p: ?*const anyopaque = @as(?*const anyopaque, @ptrCast(@alignCast(&pixels)));
     rl.UpdateTexture(canvas.texture, p);
 }
@@ -127,12 +128,14 @@ pub fn mkNoise(gg: f32) void {
     updatePixels();
 }
 pub fn main() !void {
+    // random ..............................................
     var prng = std.Random.DefaultPrng.init(blk: {
         var seed: u64 = undefined;
         try std.posix.getrandom(std.mem.asBytes(&seed));
         break :blk seed;
     });
     const rand = prng.random();
+    // ......................................................
     rl.InitWindow(scrWidth, scrHeight, "Noise for FUN");
     rl.SetTargetFPS(60);
     canvas = rl.LoadRenderTexture(scrWidth, scrHeight);
